@@ -5,7 +5,7 @@ A C-based CLI calculator for probability theory computations, installable via on
 ## Installation
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/RG8420/probcalc/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/RG8420/probfun/main/install.sh | bash
 ```
 
 ## Input Syntax

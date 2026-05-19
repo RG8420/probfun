@@ -3,7 +3,7 @@
 set -e
 
 INSTALL_DIR="$HOME/.local/bin"
-REPO_URL="https://github.com/RG8420/probcalc.git"
+REPO_URL="https://github.com/RG8420/probfun.git"
 TEMP_DIR=$(mktemp -d)
 BUILD_DIR="$TEMP_DIR/probcalc"
 
@@ -16,7 +16,10 @@ if [[ "$1" == "--uninstall" ]]; then
     exit 0
 fi
 
-if curl -sSL https://raw.githubusercontent.com/RG8420/probcalc/main/install.sh 2>/dev/null | grep -q "Not Found"; then
+if [[ -f "$(dirname "$0")/src/main.c" ]]; then
+    echo "[*] Running from local build..."
+    BUILD_DIR=$(cd "$(dirname "$0")" && pwd)
+elif curl -sSL https://raw.githubusercontent.com/RG8420/probfun/main/install.sh 2>/dev/null | grep -q "Not Found"; then
     echo "[*] Running from local build..."
     BUILD_DIR=$(cd "$(dirname "$0")" && pwd)
 fi
