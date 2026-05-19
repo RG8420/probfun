@@ -5,7 +5,6 @@ set -e
 INSTALL_DIR="$HOME/.local/bin"
 REPO_URL="https://github.com/RG8420/probfun.git"
 TEMP_DIR=$(mktemp -d)
-BUILD_DIR="$TEMP_DIR/probcalc"
 
 echo "=== Probability Calculator (probcalc) Installer ==="
 
@@ -16,15 +15,12 @@ if [[ "$1" == "--uninstall" ]]; then
     exit 0
 fi
 
-if [[ -f "$(dirname "$0")/src/main.c" ]]; then
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if [[ -f "$SCRIPT_DIR/src/main.c" && -f "$SCRIPT_DIR/Makefile" ]]; then
     echo "[*] Running from local build..."
-    BUILD_DIR=$(cd "$(dirname "$0")" && pwd)
-elif curl -sSL https://raw.githubusercontent.com/RG8420/probfun/main/install.sh 2>/dev/null | grep -q "Not Found"; then
-    echo "[*] Running from local build..."
-    BUILD_DIR=$(cd "$(dirname "$0")" && pwd)
-fi
-
-if [[ ! -d "$BUILD_DIR/src" ]]; then
+    BUILD_DIR="$SCRIPT_DIR"
+else
+    BUILD_DIR="$TEMP_DIR/probcalc"
     echo "[*] Cloning repository..."
     git clone --depth 1 "$REPO_URL" "$BUILD_DIR"
 fi
