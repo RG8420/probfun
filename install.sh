@@ -15,12 +15,17 @@ if [[ "$1" == "--uninstall" ]]; then
     exit 0
 fi
 
-SCRIPT_PATH="$(readlink -f "$0")"
-SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
-if [[ -f "$SCRIPT_DIR/src/main.c" && -f "$SCRIPT_DIR/Makefile" && -d "$SCRIPT_DIR/.git" ]]; then
-    echo "[*] Running from local build..."
-    BUILD_DIR="$SCRIPT_DIR"
-else
+IS_LOCAL=0
+if [[ -f "${BASH_SOURCE[0]}" ]]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    if [[ -f "$SCRIPT_DIR/src/main.c" && -f "$SCRIPT_DIR/Makefile" ]]; then
+        IS_LOCAL=1
+        echo "[*] Running from local build..."
+        BUILD_DIR="$SCRIPT_DIR"
+    fi
+fi
+
+if [[ $IS_LOCAL -eq 0 ]]; then
     BUILD_DIR="$TEMP_DIR/probcalc"
     echo "[*] Cloning repository..."
     git clone --depth 1 "$REPO_URL" "$BUILD_DIR"
