@@ -1,0 +1,22 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build
+      run: |
+        cd /mnt/research/Hasan_Faruque/Shared/task/probcalc
+        make clean
+        make
+    
+    - name: Test basic commands
+      run: |
+        cd /mnt/research/Hasan_Fasan_Faruque/Shared/task/probcalc
+        echo "X = normal(0, 1)" | ./probcalc
+        echo "quit" | ./probcalc
