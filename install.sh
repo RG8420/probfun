@@ -26,7 +26,7 @@ if [[ -f "${BASH_SOURCE[0]}" ]]; then
 fi
 
 if [[ $IS_LOCAL -eq 0 ]]; then
-    BUILD_DIR="$TEMP_DIR/probcalc"
+    BUILD_DIR="$TEMP_DIR/probfun"
     echo "[*] Cloning repository..."
     git clone --depth 1 "$REPO_URL" "$BUILD_DIR"
 fi
